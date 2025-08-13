@@ -28,6 +28,52 @@
         </div>
     </div>
 
+    <!-- Charts Row - Moved to top -->
+    <div class="row g-4 mb-4">
+        <!-- Sales Chart -->
+        <div class="col-xl-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Revenue Trends</h5>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-secondary active" onclick="showDailySales()">Daily</button>
+                            <button class="btn btn-outline-secondary" onclick="showMonthlySales()">Monthly</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="salesChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Products -->
+        <div class="col-xl-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0">Top Selling Products</h5>
+                </div>
+                <div class="card-body">
+                    @foreach($analyticsData['top_products'] as $index => $product)
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <div class="rank-badge">{{ $index + 1 }}</div>
+                            <div class="ms-3">
+                                <h6 class="mb-0">{{ $product['name'] }}</h6>
+                                <small class="text-muted">{{ $product['sales'] }} orders</small>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <div class="fw-bold">Rs. {{ number_format($product['revenue']) }}</div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Overview Cards -->
     <div class="row g-4 mb-4">
         <div class="col-xl-3 col-md-6">
@@ -102,52 +148,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Charts Row -->
-    <div class="row g-4 mb-4">
-        <!-- Sales Chart -->
-        <div class="col-xl-8">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white border-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Revenue Trends</h5>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-secondary active" onclick="showDailySales()">Daily</button>
-                            <button class="btn btn-outline-secondary" onclick="showMonthlySales()">Monthly</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <canvas id="salesChart" height="100"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Top Products -->
-        <div class="col-xl-4">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white border-0">
-                    <h5 class="mb-0">Top Selling Products</h5>
-                </div>
-                <div class="card-body">
-                    @foreach($analyticsData['top_products'] as $index => $product)
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="d-flex align-items-center">
-                            <div class="rank-badge">{{ $index + 1 }}</div>
-                            <div class="ms-3">
-                                <h6 class="mb-0">{{ $product['name'] }}</h6>
-                                <small class="text-muted">{{ $product['sales'] }} orders</small>
-                            </div>
-                        </div>
-                        <div class="text-end">
-                            <div class="fw-bold">Rs. {{ number_format($product['revenue']) }}</div>
-                        </div>
-                    </div>
-                    @endforeach
                 </div>
             </div>
         </div>
