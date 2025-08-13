@@ -92,14 +92,24 @@ class MenuController extends Controller
             // Handle ingredients and allergens
             if (isset($validatedData['ingredients'])) {
                 if (is_string($validatedData['ingredients'])) {
-                    $validatedData['ingredients'] = array_filter(array_map('trim', explode(',', $validatedData['ingredients'])));
+                    $ingredients = array_filter(array_map('trim', explode(',', $validatedData['ingredients'])));
+                    $validatedData['ingredients'] = empty($ingredients) ? null : $ingredients;
+                } else {
+                    $validatedData['ingredients'] = null;
                 }
+            } else {
+                $validatedData['ingredients'] = null;
             }
 
             if (isset($validatedData['allergens'])) {
                 if (is_string($validatedData['allergens'])) {
-                    $validatedData['allergens'] = array_filter(array_map('trim', explode(',', $validatedData['allergens'])));
+                    $allergens = array_filter(array_map('trim', explode(',', $validatedData['allergens'])));
+                    $validatedData['allergens'] = empty($allergens) ? null : $allergens;
+                } else {
+                    $validatedData['allergens'] = null;
                 }
+            } else {
+                $validatedData['allergens'] = null;
             }
 
             $menuItem = MenuItem::create($validatedData);
@@ -182,14 +192,24 @@ class MenuController extends Controller
             // Handle ingredients and allergens
             if (isset($validatedData['ingredients'])) {
                 if (is_string($validatedData['ingredients'])) {
-                    $validatedData['ingredients'] = array_filter(array_map('trim', explode(',', $validatedData['ingredients'])));
+                    $ingredients = array_filter(array_map('trim', explode(',', $validatedData['ingredients'])));
+                    $validatedData['ingredients'] = empty($ingredients) ? null : $ingredients;
+                } else {
+                    $validatedData['ingredients'] = null;
                 }
+            } else {
+                $validatedData['ingredients'] = null;
             }
 
             if (isset($validatedData['allergens'])) {
                 if (is_string($validatedData['allergens'])) {
-                    $validatedData['allergens'] = array_filter(array_map('trim', explode(',', $validatedData['allergens'])));
+                    $allergens = array_filter(array_map('trim', explode(',', $validatedData['allergens'])));
+                    $validatedData['allergens'] = empty($allergens) ? null : $allergens;
+                } else {
+                    $validatedData['allergens'] = null;
                 }
+            } else {
+                $validatedData['allergens'] = null;
             }
 
             $menuItem->update($validatedData);

@@ -33,8 +33,8 @@ class MenuItem extends Model
 
     protected $attributes = [
         'status' => 'active',
-        'ingredients' => '[]',
-        'allergens' => '[]',
+        'ingredients' => null,
+        'allergens' => null,
     ];
 
     /**
@@ -90,12 +90,18 @@ class MenuItem extends Model
 
     public function getIngredientsListAttribute()
     {
-        return is_array($this->ingredients) ? implode(', ', $this->ingredients) : '';
+        if (empty($this->ingredients)) {
+            return '';
+        }
+        return is_array($this->ingredients) ? implode(', ', $this->ingredients) : (string) $this->ingredients;
     }
 
     public function getAllergensListAttribute()
     {
-        return is_array($this->allergens) ? implode(', ', $this->allergens) : '';
+        if (empty($this->allergens)) {
+            return '';
+        }
+        return is_array($this->allergens) ? implode(', ', $this->allergens) : (string) $this->allergens;
     }
 
     /**

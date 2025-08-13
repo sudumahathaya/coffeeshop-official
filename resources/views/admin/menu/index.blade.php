@@ -132,7 +132,15 @@
                             </div>
                             <div class="col-6">
                                 <small class="text-muted">Allergens:</small>
-                                <div class="fw-bold">{{ empty($item->allergens) ? 'None' : (is_array($item->allergens) ? implode(', ', $item->allergens) : $item->allergens) }}</div>
+                                <div class="fw-bold">
+                                    @if(empty($item->allergens) || (is_array($item->allergens) && count($item->allergens) === 0))
+                                        None
+                                    @elseif(is_array($item->allergens))
+                                        {{ implode(', ', $item->allergens) }}
+                                    @else
+                                        {{ $item->allergens }}
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>

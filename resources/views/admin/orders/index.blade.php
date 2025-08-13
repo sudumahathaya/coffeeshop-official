@@ -111,7 +111,7 @@
                                 </div>
                             </td>
                             <td>
-                                <span class="text-muted">{{ $order->items }}</span>
+                                <span class="text-muted">{{ is_array($order->items) ? count($order->items) . ' items' : $order->items }}</span>
                             </td>
                             <td>
                                 <span class="fw-bold">Rs. {{ number_format($order->total, 2) }}</span>
