@@ -140,6 +140,24 @@
             color: #2d3748 !important;
         }
 
+        /* Chart container fixes */
+        .card-body {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-body canvas {
+            max-width: 100% !important;
+            height: auto !important;
+        }
+
+        /* Ensure charts are properly sized */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -151,6 +169,10 @@
 
             .main-content {
                 margin-left: 0;
+            }
+
+            .chart-container {
+                height: 250px;
             }
         }
     </style>

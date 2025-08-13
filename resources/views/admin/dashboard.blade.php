@@ -106,7 +106,7 @@
                     <p class="text-muted small mb-0">Revenue trends for the past week</p>
                 </div>
                 <div class="card-body">
-                    <canvas id="salesChart" height="100"></canvas>
+                    <canvas id="salesChart" style="height: 300px; width: 100%;"></canvas>
                 </div>
             </div>
         </div>
@@ -226,7 +226,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Sales Chart
     const salesCtx = document.getElementById('salesChart').getContext('2d');
-    new Chart(salesCtx, {
+    const salesChart = new Chart(salesCtx, {
         type: 'line',
         data: {
             labels: {!! json_encode($chartData['daily_sales']['labels']) !!},
@@ -237,21 +237,118 @@ document.addEventListener('DOMContentLoaded', function() {
                 backgroundColor: 'rgba(139, 69, 19, 0.1)',
                 borderWidth: 3,
                 fill: true,
-                tension: 0.4
+                tension: 0.4,
+                pointBackgroundColor: '#8B4513',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
+                pointBackgroundColor: '#8B4513',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
+            aspectRatio: 2.2,
+            aspectRatio: 2,
             plugins: {
                 legend: {
-                    display: false
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20,
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(139, 69, 19, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    borderColor: '#8B4513',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    displayColors: false,
+                    callbacks: {
+                        label: function(context) {
+                            return 'Sales: Rs. ' + context.parsed.y.toLocaleString();
+                        }
+                    }
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20,
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(139, 69, 19, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    borderColor: '#8B4513',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    displayColors: false,
+                    callbacks: {
+                        label: function(context) {
+                            return 'Revenue: Rs. ' + context.parsed.y.toLocaleString();
+                        }
+                    }
                 }
             },
             scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        },
+                        color: '#666'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 12,
+                            weight: 'bold'
+                        },
+                        color: '#666'
+                    }
+                },
                 y: {
                     beginAtZero: true,
+                    grid: {
+                        color: 'rgba(139, 69, 19, 0.1)',
+                        lineWidth: 1
+                    },
+                    grid: {
+                        color: 'rgba(139, 69, 19, 0.1)',
+                        lineWidth: 1
+                    },
                     ticks: {
+                        font: {
+                            size: 12
+                        },
+                        color: '#666',
+                        font: {
+                            size: 12
+                        },
+                        color: '#666',
                         callback: function(value) {
                             return 'Rs. ' + value.toLocaleString();
                         }
@@ -259,6 +356,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         }
+    });
+
+    // Ensure chart resizes properly
+    window.addEventListener('resize', function() {
+        salesChart.resize();
+    });
+
+    // Add chart animation on load
+    salesChart.update('active');
+
+    // Ensure chart resizes properly
+    window.addEventListener('resize', function() {
+        salesChart.resize();
     });
 });
 </script>

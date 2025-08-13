@@ -122,7 +122,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <canvas id="salesChart" height="100"></canvas>
+                    <canvas id="salesChart" style="height: 350px; width: 100%;"></canvas>
                 </div>
             </div>
         </div>
@@ -176,7 +176,7 @@
                             </div>
                         </div>
                     </div>
-                    <canvas id="customerChart" height="150"></canvas>
+                    <canvas id="customerChart" style="height: 250px; width: 100%;"></canvas>
                 </div>
             </div>
         </div>
@@ -188,7 +188,7 @@
                     <h5 class="mb-0">Peak Hours Analysis</h5>
                 </div>
                 <div class="card-body">
-                    <canvas id="peakHoursChart" height="150"></canvas>
+                    <canvas id="peakHoursChart" style="height: 250px; width: 100%;"></canvas>
                 </div>
             </div>
         </div>
@@ -203,7 +203,7 @@
                     <h5 class="mb-0">Payment Methods</h5>
                 </div>
                 <div class="card-body">
-                    <canvas id="paymentChart" height="200"></canvas>
+                    <canvas id="paymentChart" style="height: 300px; width: 100%;"></canvas>
                 </div>
             </div>
         </div>
@@ -277,6 +277,44 @@
 
 @push('styles')
 <style>
+/* Chart container improvements */
+.card-body canvas {
+    max-height: 400px;
+    width: 100% !important;
+    height: auto !important;
+}
+
+/* Ensure proper chart sizing */
+#salesChart {
+    min-height: 300px;
+}
+
+#customerChart,
+#peakHoursChart {
+    min-height: 250px;
+}
+
+#paymentChart {
+    min-height: 300px;
+}
+
+/* Chart responsive behavior */
+@media (max-width: 768px) {
+    .card-body canvas {
+        max-height: 250px;
+    }
+    
+    #salesChart {
+        min-height: 200px;
+    }
+    
+    #customerChart,
+    #peakHoursChart,
+    #paymentChart {
+        min-height: 180px;
+    }
+}
+
 .rank-badge {
     width: 30px;
     height: 30px;
@@ -330,7 +368,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Sales Chart
     const salesCtx = document.getElementById('salesChart').getContext('2d');
-    let salesChart = new Chart(salesCtx, {
+    const salesChart = new Chart(salesCtx, {
         type: 'line',
         data: {
             labels: {!! json_encode($analyticsData['sales_by_period']['daily']['labels']) !!},
@@ -341,20 +379,46 @@ document.addEventListener('DOMContentLoaded', function() {
                 backgroundColor: 'rgba(139, 69, 19, 0.1)',
                 borderWidth: 3,
                 fill: true,
-                tension: 0.4
+                tension: 0.4,
+                pointBackgroundColor: '#8B4513',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
+            aspectRatio: 2.5,
             plugins: {
                 legend: {
-                    display: false
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        padding: 20
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(139, 69, 19, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    borderColor: '#8B4513',
+                    borderWidth: 1,
+                    cornerRadius: 8
                 }
             },
             scales: {
+                x: {
+                    grid: {
+                        display: false
+                    }
+                },
                 y: {
                     beginAtZero: true,
+                    grid: {
+                        color: 'rgba(139, 69, 19, 0.1)'
+                    },
                     ticks: {
                         callback: function(value) {
                             return 'Rs. ' + value.toLocaleString();
@@ -367,7 +431,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Customer Chart
     const customerCtx = document.getElementById('customerChart').getContext('2d');
-    new Chart(customerCtx, {
+    const customerChart = new Chart(customerCtx, {
         type: 'bar',
         data: {
             labels: {!! json_encode($analyticsData['customer_analytics']['new_customers_monthly']['labels']) !!},
@@ -376,20 +440,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: {!! json_encode($analyticsData['customer_analytics']['new_customers_monthly']['data']) !!},
                 backgroundColor: 'rgba(139, 69, 19, 0.8)',
                 borderColor: '#8B4513',
-                borderWidth: 1
+                borderWidth: 1,
+                borderRadius: 4,
+                borderSkipped: false
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
+            aspectRatio: 1.8,
             plugins: {
                 legend: {
-                    display: false
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(139, 69, 19, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff'
                 }
             },
             scales: {
+                x: {
+                    grid: {
+                        display: false
+                    }
+                },
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(139, 69, 19, 0.1)'
+                    }
                 }
             }
         }
@@ -397,7 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Peak Hours Chart
     const peakHoursCtx = document.getElementById('peakHoursChart').getContext('2d');
-    new Chart(peakHoursCtx, {
+    const peakHoursChart = new Chart(peakHoursCtx, {
         type: 'line',
         data: {
             labels: {!! json_encode($analyticsData['peak_hours']['labels']) !!},
@@ -408,20 +489,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 backgroundColor: 'rgba(210, 105, 30, 0.1)',
                 borderWidth: 2,
                 fill: true,
-                tension: 0.4
+                tension: 0.4,
+                pointBackgroundColor: '#D2691E',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 4
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
+            aspectRatio: 1.8,
             plugins: {
                 legend: {
-                    display: false
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(210, 105, 30, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff'
                 }
             },
             scales: {
+                x: {
+                    grid: {
+                        display: false
+                    }
+                },
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(210, 105, 30, 0.1)'
+                    }
                 }
             }
         }
@@ -429,7 +529,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Payment Methods Chart
     const paymentCtx = document.getElementById('paymentChart').getContext('2d');
-    new Chart(paymentCtx, {
+    const paymentChart = new Chart(paymentCtx, {
         type: 'doughnut',
         data: {
             labels: {!! json_encode($analyticsData['payment_methods']['labels']) !!},
@@ -441,19 +541,49 @@ document.addEventListener('DOMContentLoaded', function() {
                     '#CD853F',
                     '#DEB887'
                 ],
-                borderWidth: 2,
-                borderColor: '#fff'
+                borderWidth: 3,
+                borderColor: '#fff',
+                hoverBorderWidth: 4,
+                hoverOffset: 10
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
+            aspectRatio: 1.2,
             plugins: {
                 legend: {
-                    position: 'bottom'
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true,
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(139, 69, 19, 0.9)',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((context.parsed / total) * 100).toFixed(1);
+                            return context.label + ': ' + percentage + '%';
+                        }
+                    }
                 }
             }
         }
+    });
+
+    // Add resize handlers for all charts
+    window.addEventListener('resize', function() {
+        salesChart.resize();
+        customerChart.resize();
+        peakHoursChart.resize();
+        paymentChart.resize();
     });
 
     // Chart switching functions
