@@ -169,25 +169,25 @@ class CafeElixirCart {
             if (cartFooter) cartFooter.style.display = 'block';
 
             cartItemsContainer.innerHTML = this.cart.map(item => `
-                <div class="cart-item d-flex align-items-center py-3 border-bottom">
+                <div class="cart-item d-flex align-items-center py-2 py-md-3 border-bottom flex-wrap gap-2">
                     <img src="${item.image}" class="cart-item-image me-3" alt="${item.name}">
                     <div class="flex-grow-1">
                         <h6 class="mb-1">${item.name}</h6>
                         <small class="text-muted">Rs. ${parseFloat(item.price).toFixed(2)} each</small>
                     </div>
-                    <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-1 gap-md-2">
                         <button class="btn btn-sm btn-outline-secondary" onclick="window.cart.updateQuantity('${item.id}', -1)">
                             <i class="bi bi-dash"></i>
                         </button>
-                        <span class="mx-2 fw-bold">${item.quantity}</span>
+                        <span class="mx-1 mx-md-2 fw-bold">${item.quantity}</span>
                         <button class="btn btn-sm btn-outline-secondary" onclick="window.cart.updateQuantity('${item.id}', 1)">
                             <i class="bi bi-plus"></i>
                         </button>
-                        <button class="btn btn-sm btn-outline-danger ms-2" onclick="window.cart.removeItem('${item.id}')">
+                        <button class="btn btn-sm btn-outline-danger ms-1 ms-md-2" onclick="window.cart.removeItem('${item.id}')">
                             <i class="bi bi-trash"></i>
                         </button>
                     </div>
-                    <div class="text-end ms-3">
+                    <div class="text-end ms-2 ms-md-3 w-100 w-md-auto">
                         <strong>Rs. ${(parseFloat(item.price) * parseInt(item.quantity)).toFixed(2)}</strong>
                     </div>
                 </div>
@@ -208,11 +208,11 @@ class CafeElixirCart {
         console.log('Creating cart modal');
 
         const modalHTML = `
-            <div class="modal fade" id="cartModal" tabindex="-1">
-                <div class="modal-dialog modal-lg">
+            <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header bg-coffee text-white">
-                            <h5 class="modal-title">
+                            <h5 class="modal-title" id="cartModalLabel">
                                 <i class="bi bi-cart me-2"></i>Your Cart
                             </h5>
                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
@@ -230,7 +230,7 @@ class CafeElixirCart {
                         </div>
                         <div class="modal-footer" id="cartFooter" style="display: none;">
                             <div class="w-100">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                                     <h5 class="mb-0">Total: <span id="cartTotal">Rs. 0.00</span></h5>
                                     <button class="btn btn-outline-danger" onclick="window.cart.clearCart()">
                                         <i class="bi bi-trash me-2"></i>Clear Cart
@@ -506,6 +506,40 @@ cartStyle.textContent = `
         flex-shrink: 0;
     }
 
+    @media (max-width: 576px) {
+        .cart-item-image {
+            width: 50px;
+            height: 50px;
+        }
+
+        .cart-item {
+            flex-direction: column;
+            text-align: center;
+            gap: 1rem;
+        }
+
+        .cart-item .flex-grow-1 {
+            text-align: center;
+            width: 100%;
+        }
+
+        .cart-item .text-end {
+            text-align: center !important;
+            width: 100%;
+        }
+
+        .modal-lg {
+            max-width: 95%;
+        }
+
+        .modal-body {
+            padding: 1rem;
+        }
+
+        .modal-footer {
+            padding: 1rem;
+        }
+    }
     .cart-counter {
         position: absolute;
         top: -8px;
@@ -523,6 +557,15 @@ cartStyle.textContent = `
         min-width: 20px;
     }
 
+    @media (max-width: 576px) {
+        .cart-counter {
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            top: -5px;
+            right: -5px;
+        }
+    }
     .bg-coffee {
         background: linear-gradient(45deg, #8B4513, #D2691E) !important;
     }
@@ -541,10 +584,20 @@ cartStyle.textContent = `
         color: white;
     }
 
+    @media (max-width: 768px) {
+        .btn-coffee:hover {
+            transform: none;
+        }
+    }
     .cart-item {
         transition: all 0.3s ease;
     }
 
+    @media (max-width: 768px) {
+        .cart-item:hover {
+            background-color: transparent;
+        }
+    }
     .cart-item:hover {
         background-color: rgba(139, 69, 19, 0.02);
     }

@@ -50,7 +50,7 @@
 <section class="py-5">
     <div class="container">
         <div class="row g-4">
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-lg-3 col-md-6 col-sm-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="stat-card">
                     <div class="stat-icon bg-primary">
                         <i class="bi bi-receipt"></i>
@@ -65,7 +65,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-lg-3 col-md-6 col-sm-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="stat-card">
                     <div class="stat-icon bg-success">
                         <i class="bi bi-star-fill"></i>
@@ -80,7 +80,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="col-lg-3 col-md-6 col-sm-6" data-aos="fade-up" data-aos-delay="300">
                 <div class="stat-card">
                     <div class="stat-icon bg-info">
                         <i class="bi bi-calendar-check"></i>
@@ -95,7 +95,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="col-lg-3 col-md-6 col-sm-6" data-aos="fade-up" data-aos-delay="400">
                 <div class="stat-card">
                     <div class="stat-icon bg-warning">
                         <i class="bi bi-currency-dollar"></i>
@@ -118,10 +118,10 @@
     <div class="container">
         <div class="row g-4">
             <!-- Recent Orders -->
-            <div class="col-lg-8">
+            <div class="col-lg-8 order-2 order-lg-1">
                 <div class="dashboard-section">
                     <div class="section-header">
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                             <h5><i class="bi bi-receipt me-2 text-coffee"></i>Recent Orders</h5>
                             <a href="{{ route('user.orders') }}" class="btn btn-outline-coffee btn-sm">
                                 <i class="bi bi-eye me-2"></i>View All
@@ -132,7 +132,7 @@
                         @if(isset($dashboardData['recent_orders']) && count($dashboardData['recent_orders']) > 0)
                             @foreach($dashboardData['recent_orders'] as $order)
                             <div class="order-item">
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
                                     <div class="order-info">
                                         <h6 class="mb-1">Order #{{ $order->order_id ?? 'ORD' . str_pad($order->id, 6, '0', STR_PAD_LEFT) }}</h6>
                                         <p class="text-muted mb-1">{{ $order->created_at->format('M d, Y g:i A') }}</p>
@@ -155,7 +155,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="order-actions mt-2">
+                                <div class="order-actions mt-2 d-flex flex-wrap gap-1">
                                     <button class="btn btn-outline-coffee btn-sm me-2" onclick="reorderItems({{ $order->id }})">
                                         <i class="bi bi-arrow-clockwise me-1"></i>Reorder
                                     </button>
@@ -181,7 +181,7 @@
                 <!-- Upcoming Reservations -->
                 <div class="dashboard-section mt-4">
                     <div class="section-header">
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                             <h5><i class="bi bi-calendar-check me-2 text-coffee"></i>Upcoming Reservations</h5>
                             <a href="{{ route('reservation') }}" class="btn btn-outline-coffee btn-sm">
                                 <i class="bi bi-plus-circle me-2"></i>New Reservation
@@ -192,7 +192,7 @@
                         @if(isset($dashboardData['upcoming_reservations']) && count($dashboardData['upcoming_reservations']) > 0)
                             @foreach($dashboardData['upcoming_reservations'] as $reservation)
                             <div class="reservation-item">
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
                                     <div class="reservation-info">
                                         <h6 class="mb-1">Reservation #{{ $reservation->reservation_id }}</h6>
                                         <p class="text-muted mb-1">
@@ -207,7 +207,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="reservation-actions mt-2">
+                                <div class="reservation-actions mt-2 d-flex flex-wrap gap-1">
                                     @if($reservation->status === 'confirmed')
                                         <button class="btn btn-outline-warning btn-sm me-2" onclick="requestReservationChange({{ $reservation->id }})">
                                             <i class="bi bi-pencil me-1"></i>Modify
@@ -234,7 +234,7 @@
             </div>
 
             <!-- Sidebar -->
-            <div class="col-lg-4">
+            <div class="col-lg-4 order-1 order-lg-2">
                 <!-- Loyalty Program -->
                 <div class="dashboard-section">
                     <div class="section-header">
@@ -266,7 +266,7 @@
                         @if(isset($dashboardData['favorite_items']))
                             @foreach($dashboardData['favorite_items'] as $item)
                         <div class="favorite-item">
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center flex-wrap gap-2">
                                 <img src="{{ $item->image }}" class="favorite-image me-3" alt="{{ $item->name }}">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-1">{{ $item->name }}</h6>
@@ -612,9 +612,10 @@
         }
 
         .stat-card {
-            flex-direction: column;
-            text-align: center;
-            gap: 0.5rem;
+            flex-direction: row;
+            text-align: left;
+            gap: 1rem;
+            padding: 1rem;
         }
 
         .section-header,
@@ -625,6 +626,63 @@
         .order-item,
         .reservation-item {
             padding: 1rem;
+        }
+
+        .favorite-item .d-flex {
+            flex-direction: column;
+            text-align: center;
+            gap: 1rem;
+        }
+
+        .favorite-item .text-end {
+            text-align: center !important;
+        }
+
+        .order-actions,
+        .reservation-actions {
+            justify-content: center;
+        }
+
+        .order-actions .btn,
+        .reservation-actions .btn {
+            flex: 1;
+            margin: 0.25rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .stat-card {
+            flex-direction: column;
+            text-align: center;
+            gap: 0.5rem;
+        }
+
+        .stat-content h3 {
+            font-size: 1.5rem;
+        }
+
+        .loyalty-circle {
+            width: 80px;
+            height: 80px;
+        }
+
+        .circle-progress {
+            width: 80px;
+            height: 80px;
+        }
+
+        .circle-progress::before {
+            width: 60px;
+            height: 60px;
+        }
+
+        .points {
+            font-size: 1rem;
+        }
+
+        .favorite-image {
+            width: 40px;
+            height: 40px;
         }
     }
 </style>

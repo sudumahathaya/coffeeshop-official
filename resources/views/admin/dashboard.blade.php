@@ -20,7 +20,7 @@
 
     <!-- Statistics Cards -->
     <div class="row g-4 mb-4">
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6 col-sm-6">
             <div class="card stat-card border-0 shadow-sm h-100">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6 col-sm-6">
             <div class="card stat-card border-0 shadow-sm h-100">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6 col-sm-6">
             <div class="card stat-card border-0 shadow-sm h-100">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -77,7 +77,7 @@
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6">
+        <div class="col-xl-3 col-md-6 col-sm-6">
             <div class="card stat-card border-0 shadow-sm h-100">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -99,19 +99,21 @@
 
     <!-- Charts Row -->
     <div class="row g-4 mb-4">
-        <div class="col-xl-8">
+        <div class="col-xl-8 order-2 order-xl-1">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white border-0 pb-0">
                     <h5 class="card-title mb-0">Daily Sales Overview</h5>
                     <p class="text-muted small mb-0">Revenue trends for the past week</p>
                 </div>
                 <div class="card-body">
-                    <canvas id="salesChart" style="height: 300px; width: 100%;"></canvas>
+                    <div class="chart-container">
+                        <canvas id="salesChart" style="height: 300px; width: 100%;"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-xl-4">
+        <div class="col-xl-4 order-1 order-xl-2">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white border-0 pb-0">
                     <h5 class="card-title mb-0">Popular Items</h5>
@@ -136,7 +138,7 @@
 
     <!-- Recent Activity Row -->
     <div class="row g-4">
-        <div class="col-xl-6">
+        <div class="col-xl-6 col-lg-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white border-0 pb-0">
                     <h5 class="card-title mb-0">Recent Users</h5>
@@ -148,8 +150,8 @@
                             <thead class="table-light">
                                 <tr>
                                     <th>User</th>
-                                    <th>Email</th>
-                                    <th>Joined</th>
+                                    <th class="d-none d-md-table-cell">Email</th>
+                                    <th class="d-none d-sm-table-cell">Joined</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -163,11 +165,16 @@
                                                     {{ strtoupper(substr($user->name, 0, 1)) }}
                                                 </span>
                                             </div>
-                                            <span class="fw-medium">{{ $user->name }}</span>
+                                            <div>
+                                                <span class="fw-medium">{{ $user->name }}</span>
+                                                <div class="d-block d-md-none">
+                                                    <small class="text-muted">{{ $user->email }}</small>
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
-                                    <td class="text-muted">{{ $user->email }}</td>
-                                    <td class="text-muted">{{ $user->created_at->diffForHumans() }}</td>
+                                    <td class="text-muted d-none d-md-table-cell">{{ $user->email }}</td>
+                                    <td class="text-muted d-none d-sm-table-cell">{{ $user->created_at->diffForHumans() }}</td>
                                     <td>
                                         <span class="badge bg-success">Active</span>
                                     </td>
@@ -180,36 +187,40 @@
             </div>
         </div>
 
-        <div class="col-xl-6">
+        <div class="col-xl-6 col-lg-12">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white border-0 pb-0">
                     <h5 class="card-title mb-0">Quick Actions</h5>
                     <p class="text-muted small mb-0">Common administrative tasks</p>
                 </div>
                 <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-6">
+                    <div class="row g-2">
+                        <div class="col-6 col-md-3 col-xl-6">
                             <a href="{{ route('admin.reservations') }}" class="btn btn-outline-primary w-100 py-3">
-                                <i class="bi bi-calendar-plus d-block mb-2" style="font-size: 1.5rem;"></i>
-                                <span class="small">Manage Reservations</span>
+                                <i class="bi bi-calendar-plus d-block mb-1 mb-md-2" style="font-size: 1.2rem;"></i>
+                                <span class="small d-none d-md-block">Manage Reservations</span>
+                                <span class="small d-block d-md-none">Reservations</span>
                             </a>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 col-md-3 col-xl-6">
                             <a href="{{ route('admin.orders') }}" class="btn btn-outline-success w-100 py-3">
-                                <i class="bi bi-receipt d-block mb-2" style="font-size: 1.5rem;"></i>
-                                <span class="small">View Orders</span>
+                                <i class="bi bi-receipt d-block mb-1 mb-md-2" style="font-size: 1.2rem;"></i>
+                                <span class="small d-none d-md-block">View Orders</span>
+                                <span class="small d-block d-md-none">Orders</span>
                             </a>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 col-md-3 col-xl-6">
                             <a href="{{ route('admin.users') }}" class="btn btn-outline-info w-100 py-3">
-                                <i class="bi bi-people d-block mb-2" style="font-size: 1.5rem;"></i>
-                                <span class="small">User Management</span>
+                                <i class="bi bi-people d-block mb-1 mb-md-2" style="font-size: 1.2rem;"></i>
+                                <span class="small d-none d-md-block">User Management</span>
+                                <span class="small d-block d-md-none">Users</span>
                             </a>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 col-md-3 col-xl-6">
                             <a href="{{ route('admin.settings') }}" class="btn btn-outline-warning w-100 py-3">
-                                <i class="bi bi-gear d-block mb-2" style="font-size: 1.5rem;"></i>
-                                <span class="small">Settings</span>
+                                <i class="bi bi-gear d-block mb-1 mb-md-2" style="font-size: 1.2rem;"></i>
+                                <span class="small d-none d-md-block">Settings</span>
+                                <span class="small d-block d-md-none">Settings</span>
                             </a>
                         </div>
                     </div>
@@ -252,8 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
         options: {
             responsive: true,
             maintainAspectRatio: true,
-            aspectRatio: 2.2,
-            aspectRatio: 2,
+            aspectRatio: window.innerWidth < 768 ? 1.5 : 2,
             plugins: {
                 legend: {
                     display: true,
@@ -262,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         usePointStyle: true,
                         padding: 20,
                         font: {
-                            size: 12,
+                            size: window.innerWidth < 768 ? 10 : 12,
                             weight: 'bold'
                         }
                     }
@@ -312,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     ticks: {
                         font: {
-                            size: 12,
+                            size: window.innerWidth < 768 ? 10 : 12,
                             weight: 'bold'
                         },
                         color: '#666'
@@ -342,7 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     ticks: {
                         font: {
-                            size: 12
+                            size: window.innerWidth < 768 ? 10 : 12
                         },
                         color: '#666',
                         font: {
@@ -350,7 +360,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         },
                         color: '#666',
                         callback: function(value) {
-                            return 'Rs. ' + value.toLocaleString();
+                            return window.innerWidth < 768 ? 
+                                'Rs. ' + (value / 1000).toFixed(0) + 'k' : 
+                                'Rs. ' + value.toLocaleString();
                         }
                     }
                 }
@@ -360,6 +372,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Ensure chart resizes properly
     window.addEventListener('resize', function() {
+        salesChart.options.aspectRatio = window.innerWidth < 768 ? 1.5 : 2;
+        salesChart.options.plugins.legend.labels.font.size = window.innerWidth < 768 ? 10 : 12;
+        salesChart.options.scales.x.ticks.font.size = window.innerWidth < 768 ? 10 : 12;
+        salesChart.options.scales.y.ticks.font.size = window.innerWidth < 768 ? 10 : 12;
         salesChart.resize();
     });
 

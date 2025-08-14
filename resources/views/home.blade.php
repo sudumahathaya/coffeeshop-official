@@ -20,24 +20,28 @@
                             <i class="bi bi-calendar-check me-2"></i>Make Reservation
                         </a>
                     </div>
-                    <div class="text-center mt-5 mb-4">
+                    <div class="text-center mt-4 mb-3">
                         <p id="sinhalaTypewriter" style="font-size: 1.3rem; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); font-weight: 500; min-height: 2em; font-family: 'Noto Sans Sinhala', serif; display: inline;">
                         </p>
                         <span id="cursor" style="color: #fff; font-size: 20px; animation: blink 1s infinite;">|</span>
                     </div>
-                    <div class="text-center mt-2 mb-2">
+                    <div class="text-center mt-2 mb-2 d-none d-md-block">
                         <p id="englishTypewriter" style="font-size: 1.3rem; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); font-weight: 500; min-height: 2em; font-family: 'Noto Sans Sinhala', serif; display: inline;">
                         </p>
                         <span id="cursor" style="color: #fff; font-size: 20px; animation: blink 1s infinite;">|</span>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+            <div class="col-lg-6 mt-4 mt-lg-0" data-aos="fade-left" data-aos-delay="200">
                 <div class="text-center">
                     <img src="img/cup.png"
                          alt="Coffee Cup"
-                         class="img-fluid rounded-circle floating"
-                         style="max-width: 650px; box-shadow: 10px 90px 90px rgba(0,0,0,0.3);margin-top:50px:">
+                         class="img-fluid rounded-circle floating d-none d-md-block"
+                         style="max-width: 650px; box-shadow: 10px 90px 90px rgba(0,0,0,0.3);margin-top:50px;">
+                    <img src="img/cup.png"
+                         alt="Coffee Cup"
+                         class="img-fluid rounded-circle d-block d-md-none"
+                         style="max-width: 300px; box-shadow: 5px 20px 40px rgba(0,0,0,0.3);">
 
                 </div>
             </div>
@@ -138,7 +142,7 @@
 
         <div class="row g-4">
             @foreach($featuredProducts as $index => $product)
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ ($index + 1) * 100 }}">
+            <div class="col-lg-4 col-md-6 col-sm-6" data-aos="fade-up" data-aos-delay="{{ ($index + 1) * 100 }}">
                 <div class="card card-coffee">
                     <div class="position-relative overflow-hidden">
                         <img src="{{ $product->image }}" class="card-img-top" alt="{{ $product->name }}">
@@ -151,7 +155,7 @@
                     <div class="card-body">
                         <h5 class="card-title text-coffee">{{ $product->name }}</h5>
                         <p class="card-text text-muted">{{ $product->description }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                             <span class="h5 text-coffee mb-0">Rs. {{ number_format($product->price, 2) }}</span>
                             @auth
                                 <button class="btn btn-coffee btn-sm add-to-cart"
@@ -428,17 +432,17 @@
 <!-- Newsletter Section -->
 <section class="py-5 bg-dark text-white">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6" data-aos="fade-right">
+        <div class="row align-items-center text-center text-lg-start">
+            <div class="col-lg-6 mb-3 mb-lg-0" data-aos="fade-right">
                 <h3 class="mb-3">Stay Updated with Café Elixir</h3>
                 <p class="mb-0">Get the latest updates on new coffee blends, special offers, and exclusive events delivered straight to your inbox.</p>
             </div>
             <div class="col-lg-6" data-aos="fade-left">
-                <form class="row g-3">
-                    <div class="col">
+                <form class="row g-3 justify-content-center">
+                    <div class="col-12 col-md-8">
                         <input type="email" class="form-control form-control-lg" placeholder="Enter your email address" required>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-12 col-md-4">
                         <button type="submit" class="btn btn-coffee btn-lg">
                             <i class="bi bi-send me-1"></i>Subscribe
                         </button>

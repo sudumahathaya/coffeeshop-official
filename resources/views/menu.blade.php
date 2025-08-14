@@ -44,7 +44,7 @@
         <!-- Category Filter Buttons -->
         <div class="row justify-content-center mb-5" data-aos="fade-up" data-aos-delay="100">
             <div class="col-lg-8">
-                <div class="category-filters d-flex flex-wrap justify-content-center gap-2">
+                <div class="category-filters d-flex flex-wrap justify-content-center gap-2 px-3">
                     <button class="btn btn-coffee active" data-category="all">
                         <i class="bi bi-grid me-2"></i>All Items
                     </button>
@@ -61,7 +61,7 @@
                             $categoryClass = $categoryData[0];
                             $categoryIcon = $categoryData[1];
                         @endphp
-                        <button class="btn btn-outline-coffee" data-category="{{ $categoryClass }}">
+                        <button class="btn btn-outline-coffee flex-fill flex-sm-grow-0" data-category="{{ $categoryClass }}">
                             <i class="bi {{ $categoryIcon }} me-2"></i>{{ $category }}
                         </button>
                     @endforeach
@@ -107,7 +107,7 @@
                         }
                     @endphp
 
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-12 menu-item" data-category="{{ $categoryClass }}" data-aos="fade-up" data-aos-delay="{{ (($index % 3) + 1) * 100 }}">
+                    <div class="col-lg-4 col-md-6 col-sm-6 menu-item" data-category="{{ $categoryClass }}" data-aos="fade-up" data-aos-delay="{{ (($index % 3) + 1) * 100 }}">
                         <div class="card menu-card h-100">
                             <div class="position-relative overflow-hidden">
                                 <img src="{{ $item->image }}" class="card-img-top" alt="{{ $item->name }}">
@@ -133,7 +133,7 @@
                                 <div class="price-section mb-3">
                                     <span class="h5 text-coffee mb-0">Rs. {{ number_format($item->price, 2) }}</span>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                                     @auth
                                         <button class="btn btn-coffee btn-sm add-to-cart"
                                                 data-id="{{ $item->id }}"
@@ -148,18 +148,18 @@
                                         </a>
                                     @endauth
                                     @auth
-                                        <button class="btn btn-outline-coffee btn-sm ms-2"
+                                        <button class="btn btn-outline-coffee btn-sm"
                                                 onclick="quickPay({{ $item->id }}, '{{ $item->name }}', {{ $item->price }}, '{{ $item->image }}')"
                                                 data-payment-trigger>
                                             <i class="bi bi-credit-card me-1"></i>Quick Pay
                                         </button>
                                     @else
-                                        <a href="{{ route('login') }}" class="btn btn-outline-coffee btn-sm ms-2">
+                                        <a href="{{ route('login') }}" class="btn btn-outline-coffee btn-sm">
                                             <i class="bi bi-credit-card me-1"></i>Quick Pay
                                         </a>
                                     @endauth
                                 </div>
-                                <div class="mt-2">
+                                <div class="mt-2 text-center">
                                     <small class="text-muted">
                                         <i class="bi bi-clock me-1"></i>{{ $item->preparation_time ?? 'Ready soon' }}
                                     </small>
@@ -184,7 +184,7 @@
         </div>
 
         <div class="row g-4">
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-lg-4 col-md-6 col-sm-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="card offer-card border-0 shadow">
                     <div class="card-body text-center">
                         <div class="offer-icon mb-3">
@@ -199,7 +199,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-lg-4 col-md-6 col-sm-6" data-aos="fade-up" data-aos-delay="200">
                 <div class="card offer-card border-0 shadow">
                     <div class="card-body text-center">
                         <div class="offer-icon mb-3">
@@ -214,7 +214,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="col-lg-4 col-md-6 col-sm-6" data-aos="fade-up" data-aos-delay="300">
                 <div class="card offer-card border-0 shadow">
                     <div class="card-body text-center">
                         <div class="offer-icon mb-3">

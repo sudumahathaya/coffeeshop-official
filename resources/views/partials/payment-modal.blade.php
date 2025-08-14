@@ -1,6 +1,6 @@
 <!-- Payment Modal -->
 <div class="modal fade" id="paymentModal" tabindex="-1">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header bg-coffee text-white">
                 <h5 class="modal-title">
@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <div class="row g-4">
                     <!-- Order Summary -->
-                    <div class="col-lg-5">
+                    <div class="col-lg-5 order-2 order-lg-1">
                         <div class="order-summary">
                             <h6 class="mb-3">
                                 <i class="bi bi-receipt me-2"></i>Order Summary
@@ -43,7 +43,7 @@
                     </div>
 
                     <!-- Payment Form -->
-                    <div class="col-lg-7">
+                    <div class="col-lg-7 order-1 order-lg-2">
                         <form id="paymentForm" class="payment-form">
                             @csrf
                             <input type="hidden" id="paymentOrderId" name="order_id">
@@ -59,37 +59,37 @@
                                     <i class="bi bi-credit-card me-2"></i>Payment Method
                                 </h6>
                                 <div class="payment-methods">
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
+                                    <div class="row g-2">
+                                        <div class="col-6 col-md-6">
                                             <input type="radio" class="btn-check" name="payment_method" id="method_card" value="card" checked>
-                                            <label class="btn btn-outline-primary w-100 py-3" for="method_card">
-                                                <i class="bi bi-credit-card d-block mb-2" style="font-size: 2rem;"></i>
+                                            <label class="btn btn-outline-primary w-100 py-2 py-md-3" for="method_card">
+                                                <i class="bi bi-credit-card d-block mb-1 mb-md-2" style="font-size: 1.5rem;"></i>
                                                 <strong>Credit/Debit Card</strong><br>
-                                                <small>Visa, Mastercard, Amex</small>
+                                                <small class="d-none d-md-block">Visa, Mastercard, Amex</small>
                                             </label>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-6 col-md-6">
                                             <input type="radio" class="btn-check" name="payment_method" id="method_mobile" value="mobile">
-                                            <label class="btn btn-outline-success w-100 py-3" for="method_mobile">
-                                                <i class="bi bi-phone d-block mb-2" style="font-size: 2rem;"></i>
+                                            <label class="btn btn-outline-success w-100 py-2 py-md-3" for="method_mobile">
+                                                <i class="bi bi-phone d-block mb-1 mb-md-2" style="font-size: 1.5rem;"></i>
                                                 <strong>Mobile Payment</strong><br>
-                                                <small>Dialog, Mobitel, Hutch</small>
+                                                <small class="d-none d-md-block">Dialog, Mobitel, Hutch</small>
                                             </label>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-6 col-md-6">
                                             <input type="radio" class="btn-check" name="payment_method" id="method_bank" value="bank_transfer">
-                                            <label class="btn btn-outline-info w-100 py-3" for="method_bank">
-                                                <i class="bi bi-bank d-block mb-2" style="font-size: 2rem;"></i>
+                                            <label class="btn btn-outline-info w-100 py-2 py-md-3" for="method_bank">
+                                                <i class="bi bi-bank d-block mb-1 mb-md-2" style="font-size: 1.5rem;"></i>
                                                 <strong>Bank Transfer</strong><br>
-                                                <small>All major banks</small>
+                                                <small class="d-none d-md-block">All major banks</small>
                                             </label>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-6 col-md-6">
                                             <input type="radio" class="btn-check" name="payment_method" id="method_cash" value="cash">
-                                            <label class="btn btn-outline-warning w-100 py-3" for="method_cash">
-                                                <i class="bi bi-cash-stack d-block mb-2" style="font-size: 2rem;"></i>
+                                            <label class="btn btn-outline-warning w-100 py-2 py-md-3" for="method_cash">
+                                                <i class="bi bi-cash-stack d-block mb-1 mb-md-2" style="font-size: 1.5rem;"></i>
                                                 <strong>Cash Payment</strong><br>
-                                                <small>Pay at café</small>
+                                                <small class="d-none d-md-block">Pay at café</small>
                                             </label>
                                         </div>
                                     </div>
@@ -121,6 +121,51 @@
 </div>
 
 <style>
+@media (max-width: 768px) {
+    .modal-xl {
+        max-width: 95%;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+    
+    .order-summary {
+        margin-bottom: 2rem;
+    }
+    
+    .payment-methods .btn {
+        font-size: 0.8rem;
+        padding: 0.5rem !important;
+    }
+    
+    .payment-methods .btn strong {
+        font-size: 0.75rem;
+    }
+    
+    .payment-methods .btn i {
+        font-size: 1.2rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 0.25rem;
+    }
+    
+    .modal-xl {
+        max-width: 100%;
+    }
+    
+    .payment-methods .row {
+        gap: 0.5rem;
+    }
+    
+    .payment-methods .col-6 {
+        flex: 0 0 calc(50% - 0.25rem);
+    }
+}
+
 .payment-methods .btn-check:checked + .btn {
     background-color: var(--bs-primary);
     border-color: var(--bs-primary);

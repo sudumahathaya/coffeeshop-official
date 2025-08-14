@@ -49,17 +49,37 @@
             transition: all 0.3s ease;
         }
 
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 260px;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+        }
         .sidebar-brand {
             padding: 1.5rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        @media (max-width: 768px) {
+            .sidebar-brand {
+                padding: 1rem;
+            }
+        }
         .sidebar-brand h4 {
             color: white;
             margin: 0;
             font-weight: 700;
         }
 
+        @media (max-width: 768px) {
+            .sidebar-brand h4 {
+                font-size: 1.25rem;
+            }
+        }
         .sidebar-nav {
             padding: 1rem 0;
         }
@@ -75,6 +95,13 @@
             align-items: center;
         }
 
+        @media (max-width: 768px) {
+            .nav-link {
+                padding: 0.5rem 1rem;
+                margin: 0.25rem 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
         .nav-link:hover,
         .nav-link.active {
             background: rgba(255, 255, 255, 0.1);
@@ -82,6 +109,12 @@
             transform: translateX(5px);
         }
 
+        @media (max-width: 768px) {
+            .nav-link:hover,
+            .nav-link.active {
+                transform: none;
+            }
+        }
         .nav-link i {
             width: 20px;
             margin-right: 0.75rem;
@@ -93,6 +126,11 @@
             transition: all 0.3s ease;
         }
 
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+            }
+        }
         .top-navbar {
             background: white;
             border-bottom: 1px solid #e9ecef;
@@ -102,10 +140,20 @@
             z-index: 999;
         }
 
+        @media (max-width: 768px) {
+            .top-navbar {
+                padding: 0.75rem 1rem;
+            }
+        }
         .content-area {
             padding: 2rem;
         }
 
+        @media (max-width: 768px) {
+            .content-area {
+                padding: 1rem;
+            }
+        }
         .stat-icon {
             width: 60px;
             height: 60px;
@@ -117,6 +165,13 @@
             font-size: 1.5rem;
         }
 
+        @media (max-width: 576px) {
+            .stat-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.25rem;
+            }
+        }
         .btn-coffee {
             background: linear-gradient(45deg, var(--coffee-primary), var(--coffee-secondary));
             border: none;
@@ -132,6 +187,11 @@
             color: white;
         }
 
+        @media (max-width: 768px) {
+            .btn-coffee:hover {
+                transform: none;
+            }
+        }
         .text-coffee {
             color: var(--coffee-primary) !important;
         }
@@ -159,20 +219,63 @@
         }
 
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.show {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-
             .chart-container {
                 height: 250px;
+            }
+
+            /* Mobile-specific admin improvements */
+            .card-body {
+                padding: 1rem;
+            }
+
+            .card-header {
+                padding: 1rem;
+            }
+
+            .table-responsive {
+                font-size: 0.875rem;
+            }
+
+            .btn-group .btn {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            .badge {
+                font-size: 0.7rem;
+            }
+
+            /* Dropdown improvements for mobile */
+            .dropdown-menu {
+                font-size: 0.875rem;
+            }
+
+            /* Modal improvements */
+            .modal-dialog {
+                margin: 0.5rem;
+            }
+
+            .modal-body {
+                padding: 1rem;
+            }
+
+            /* Form improvements */
+            .form-control,
+            .form-select {
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+
+            /* Stats card mobile layout */
+            .stat-icon {
+                margin-bottom: 0.5rem;
+            }
+
+            .h4 {
+                font-size: 1.25rem;
+            }
+
+            .small {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -299,7 +402,7 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{{ route('profile.edit') }}">
                                 <i class="bi bi-person me-2"></i>Profile
-                            </a></li>
+                <div class="d-flex align-items-center gap-2 gap-md-3">
                             <li><a class="dropdown-item" href="{{ route('admin.settings') }}">
                                 <i class="bi bi-gear me-2"></i>Settings
                             </a></li>
@@ -308,7 +411,7 @@
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="dropdown-item">
-                                        <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        <ul class="dropdown-menu dropdown-menu-end" style="min-width: 250px;">
                                     </button>
                                 </form>
                             </li>
@@ -318,10 +421,12 @@
             </div>
         </nav>
 
-        <!-- Content Area -->
-        <div class="content-area">
+                        <button class="btn btn-coffee dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>
+                            <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                            <span class="d-inline d-md-none">{{ substr(Auth::user()->name, 0, 8) }}...</span>
             @yield('content')
-        </div>
+                        <ul class="dropdown-menu dropdown-menu-end" style="min-width: 200px;">
     </div>
 
     <!-- Bootstrap JS -->
@@ -349,6 +454,8 @@
                 min-width: 350px;
                 border-radius: 15px;
                 animation: slideInRight 0.5s ease;
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay d-md-none" id="sidebarOverlay" style="display: none;"></div>
                 box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             `;
 
@@ -361,7 +468,34 @@
 
             notification.innerHTML = `
                 <div class="d-flex align-items-center">
-                    <i class="bi bi-${iconMap[type]} me-2"></i>
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.toggle('show');
+            
+            if (sidebar.classList.contains('show')) {
+                overlay.style.display = 'block';
+                overlay.style.opacity = '0';
+                setTimeout(() => overlay.style.opacity = '0.5', 10);
+                document.body.style.overflow = 'hidden';
+            } else {
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    document.body.style.overflow = '';
+                }, 300);
+            }
+        });
+
+        // Close sidebar when clicking overlay
+        document.getElementById('sidebarOverlay')?.addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.remove('show');
+            this.style.opacity = '0';
+            setTimeout(() => {
+                this.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
                     <span class="flex-grow-1">${message}</span>
                     <button type="button" class="btn-close ms-2" onclick="this.parentElement.parentElement.remove()"></button>
                 </div>
@@ -372,14 +506,52 @@
             setTimeout(() => {
                 if (notification.parentElement) {
                     notification.style.animation = 'slideOutRight 0.5s ease';
-                    setTimeout(() => notification.remove(), 500);
+                min-width: ${window.innerWidth < 768 ? '300px' : '350px'};
+                max-width: ${window.innerWidth < 768 ? '90vw' : '400px'};
                 }
             }, 5000);
         }
 
+        @media (max-width: 576px) {
+            .content-area {
+                padding: 0.5rem;
+            }
+
+            .card {
+                margin-bottom: 1rem;
+            }
+
+            .btn-group {
+                    <span class="d-none d-lg-inline">Menu Management</span>
+                    <span class="d-inline d-lg-none">Menu</span>
+            }
+
+            .btn-group .btn {
+                border-radius: 0.375rem !important;
+                margin-bottom: 0.25rem;
+            }
+                    <span class="d-none d-lg-inline">Profile Changes</span>
+                    <span class="d-inline d-lg-none">Profiles</span>
+            /* Hide some columns on very small screens */
+            .d-none-xs {
+                display: none !important;
+            }
+        }
         // CSS animations
-        const style = document.createElement('style');
+                    <span class="d-none d-lg-inline">Reservation Changes</span>
+                    <span class="d-inline d-lg-none">Changes</span>
         style.textContent = `
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 999;
+                transition: opacity 0.3s ease;
+            }
+
             @keyframes slideInRight {
                 from { transform: translateX(100%); opacity: 0; }
                 to { transform: translateX(0); opacity: 1; }
@@ -392,6 +564,16 @@
             
             .notification-toast {
                 backdrop-filter: blur(10px);
+            }
+
+            @media (max-width: 768px) {
+                .notification-toast {
+                    top: 10px !important;
+                    right: 10px !important;
+                    left: 10px !important;
+                    min-width: auto !important;
+                    max-width: none !important;
+                }
             }
         `;
         document.head.appendChild(style);

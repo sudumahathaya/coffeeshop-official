@@ -54,6 +54,7 @@
             line-height: 1.6;
             color: #333;
             overflow-x: hidden;
+            font-size: 16px; /* Ensure minimum font size for mobile */
 
         }
 
@@ -65,6 +66,7 @@
         h6 {
             font-family: 'Playfair Display', serif;
             font-weight: 600;
+            line-height: 1.2;
         }
 
         .img-fluid {
@@ -96,6 +98,12 @@
             transition: all 0.3s ease;
         }
 
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+        }
+
         .navbar-brand:hover {
             transform: scale(1.05);
             color: var(--coffee-secondary) !important;
@@ -111,11 +119,25 @@
             position: relative;
         }
 
+        @media (max-width: 991px) {
+            .navbar-nav .nav-link {
+                margin: 0.25rem 0;
+                text-align: center;
+            }
+        }
+
         .navbar-nav .nav-link:hover,
         .navbar-nav .nav-link.active {
             color: white !important;
             background: var(--gradient-primary);
             transform: translateY(-2px);
+        }
+
+        @media (max-width: 991px) {
+            .navbar-nav .nav-link:hover,
+            .navbar-nav .nav-link.active {
+                transform: none;
+            }
         }
 
         .btn-coffee {
@@ -130,10 +152,25 @@
             display: inline-block;
         }
 
+        @media (max-width: 576px) {
+            .btn-coffee {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+                width: 100%;
+                margin: 0.25rem 0;
+            }
+        }
+
         .btn-coffee:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(139, 69, 19, 0.4);
             color: white;
+        }
+
+        @media (max-width: 768px) {
+            .btn-coffee:hover {
+                transform: none;
+            }
         }
 
         .btn-outline-coffee {
@@ -148,11 +185,26 @@
             display: inline-block;
         }
 
+        @media (max-width: 576px) {
+            .btn-outline-coffee {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+                width: 100%;
+                margin: 0.25rem 0;
+            }
+        }
+
         .btn-outline-coffee:hover {
             background: var(--coffee-primary);
             color: white;
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(139, 69, 19, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .btn-outline-coffee:hover {
+                transform: none;
+            }
         }
 
         /* Hero Section */
@@ -164,6 +216,13 @@
             align-items: center;
             color: white;
             position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                min-height: 80vh;
+                padding: 2rem 0;
+            }
         }
 
         .hero-section::before {
@@ -188,10 +247,36 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+        }
+
         .hero-subtitle {
             font-size: 1.5rem;
             margin-bottom: 2rem;
             opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .hero-subtitle {
+                font-size: 1.2rem;
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-subtitle {
+                font-size: 1rem;
+            }
         }
 
         /* Card Styles */
@@ -209,14 +294,32 @@
             box-shadow: 0 20px 40px rgba(139, 69, 19, 0.2);
         }
 
+        @media (max-width: 768px) {
+            .card-coffee:hover {
+                transform: translateY(-5px);
+            }
+        }
+
         .card-coffee .card-img-top {
             height: 250px;
             object-fit: cover;
             transition: all 0.4s ease;
         }
 
+        @media (max-width: 576px) {
+            .card-coffee .card-img-top {
+                height: 200px;
+            }
+        }
+
         .card-coffee:hover .card-img-top {
             transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .card-coffee:hover .card-img-top {
+                transform: scale(1.05);
+            }
         }
 
         /* Feature Icons */
@@ -234,9 +337,23 @@
             transition: all 0.3s ease;
         }
 
+        @media (max-width: 576px) {
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+
         .feature-icon:hover {
             transform: scale(1.1) rotate(5deg);
             box-shadow: 0 10px 25px rgba(139, 69, 19, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .feature-icon:hover {
+                transform: scale(1.05);
+            }
         }
 
         /* Stats Counter */
@@ -244,6 +361,12 @@
             background: var(--gradient-primary);
             color: white;
             padding: 4rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .stats-counter {
+                padding: 2rem 0;
+            }
         }
 
         .stat-item {
@@ -256,9 +379,21 @@
             display: block;
         }
 
+        @media (max-width: 768px) {
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+
         .stat-label {
             font-size: 1.1rem;
             opacity: 0.9;
+        }
+
+        @media (max-width: 576px) {
+            .stat-label {
+                font-size: 1rem;
+            }
         }
 
         /* Footer */
@@ -266,6 +401,12 @@
             background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
             padding: 3rem 0 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                padding: 2rem 0 1rem;
+            }
         }
 
         .footer h5 {
@@ -282,6 +423,12 @@
         .footer a:hover {
             color: var(--coffee-accent);
             transform: translateX(5px);
+        }
+
+        @media (max-width: 768px) {
+            .footer a:hover {
+                transform: none;
+            }
         }
 
         /* Animations */
@@ -313,6 +460,12 @@
             animation: float 3s ease-in-out infinite;
         }
 
+        @media (max-width: 768px) {
+            .floating {
+                animation: none;
+            }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero-title {
@@ -329,6 +482,178 @@
 
             .navbar-nav .nav-link {
                 margin: 0.2rem 0;
+            }
+
+            /* Mobile-specific improvements */
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .display-3, .display-4, .display-5 {
+                font-size: 2rem !important;
+            }
+
+            .lead {
+                font-size: 1.1rem;
+            }
+
+            /* Button groups on mobile */
+            .d-flex.gap-3 {
+                flex-direction: column;
+                gap: 0.75rem !important;
+            }
+
+            .d-flex.gap-3 .btn {
+                width: 100%;
+            }
+
+            /* Card spacing on mobile */
+            .card {
+                margin-bottom: 1rem;
+            }
+
+            /* Form improvements */
+            .form-control, .form-select {
+                font-size: 16px; /* Prevent zoom on iOS */
+                padding: 0.75rem;
+            }
+
+            /* Modal improvements */
+            .modal-dialog {
+                margin: 0.5rem;
+            }
+
+            .modal-content {
+                border-radius: 15px;
+            }
+
+            /* Table responsive */
+            .table-responsive {
+                font-size: 0.875rem;
+            }
+
+            /* Navbar collapse improvements */
+            .navbar-collapse {
+                background: rgba(255, 255, 255, 0.98);
+                border-radius: 15px;
+                margin-top: 1rem;
+                padding: 1rem;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+            /* Cart counter mobile positioning */
+            .cart-counter {
+                top: -5px;
+                right: -5px;
+                font-size: 0.7rem;
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            /* Extra small devices */
+            .hero-section {
+                min-height: 70vh;
+            }
+
+            .py-5 {
+                padding-top: 2rem !important;
+                padding-bottom: 2rem !important;
+            }
+
+            .mb-5 {
+                margin-bottom: 2rem !important;
+            }
+
+            .mt-5 {
+                margin-top: 2rem !important;
+            }
+
+            /* Typography adjustments */
+            h1 { font-size: 1.75rem !important; }
+            h2 { font-size: 1.5rem !important; }
+            h3 { font-size: 1.25rem !important; }
+            h4 { font-size: 1.1rem !important; }
+            h5 { font-size: 1rem !important; }
+
+            /* Button improvements */
+            .btn-lg {
+                padding: 0.75rem 1rem;
+                font-size: 1rem;
+            }
+
+            .btn-sm {
+                padding: 0.375rem 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            /* Spacing improvements */
+            .g-4 > * {
+                margin-bottom: 1rem;
+            }
+
+            .g-3 > * {
+                margin-bottom: 0.75rem;
+            }
+
+            /* Image sizing */
+            .img-fluid {
+                max-width: 100%;
+                height: auto;
+            }
+
+            /* Text alignment on mobile */
+            .text-center-mobile {
+                text-align: center !important;
+            }
+
+            /* Hide elements on mobile if needed */
+            .d-none-mobile {
+                display: none !important;
+            }
+
+            /* Show elements only on mobile */
+            .d-block-mobile {
+                display: block !important;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            /* Touch devices */
+            .btn, .nav-link, .card {
+                min-height: 44px; /* Apple's recommended touch target size */
+            }
+
+            .btn-sm {
+                min-height: 38px;
+            }
+
+            /* Remove hover effects on touch devices */
+            .card-coffee:hover {
+                transform: none;
+            }
+
+            .feature-icon:hover {
+                transform: none;
+            }
+
+            .btn-coffee:hover,
+            .btn-outline-coffee:hover {
+                transform: none;
+            }
+        }
+
+        /* Landscape phone orientation */
+        @media (max-width: 896px) and (orientation: landscape) {
+            .hero-section {
+                min-height: 100vh;
+            }
+
+            .navbar-custom {
+                padding: 0.25rem 0;
             }
         }
 
@@ -379,6 +704,14 @@
             animation: spin 1s linear infinite;
         }
 
+        @media (max-width: 576px) {
+            .coffee-loader {
+                width: 40px;
+                height: 40px;
+                border-width: 4px;
+            }
+        }
+
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -411,8 +744,8 @@
                 <i class="bi bi-cup-hot-fill me-2"></i>Café Elixir
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list fs-4 text-coffee"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -453,7 +786,7 @@
                     </li>
                 </ul>
 
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 flex-column flex-lg-row">
                     @guest
                         <a href="{{ route('login') }}" class="btn btn-outline-coffee">
                             <i class="bi bi-box-arrow-in-right me-1"></i>Login
