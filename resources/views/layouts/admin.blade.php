@@ -397,7 +397,7 @@
                     <!-- User Menu -->
                     <div class="dropdown">
                         <button class="btn btn-coffee dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle me-1"></i>{{ auth()->user()->name }}
+                            <i class="bi bi-person-circle me-1"></i>{{ Auth::user()->name }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{{ route('profile.edit') }}">
@@ -423,8 +423,8 @@
 
                         <button class="btn btn-coffee dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle me-1"></i>
-                            <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
-                            <span class="d-inline d-md-none">{{ substr(auth()->user()->name, 0, 8) }}...</span>
+                            <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                            <span class="d-inline d-md-none">{{ substr(Auth::user()->name, 0, 8) }}...</span>
             @yield('content')
                         <ul class="dropdown-menu dropdown-menu-end" style="min-width: 200px;">
     </div>

@@ -26,15 +26,15 @@
                 <div class="profile-card">
                     <div class="text-center">
                         <div class="profile-avatar">
-                            <span class="avatar-text">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                            <span class="avatar-text">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
                             <div class="avatar-badge">
                                 <i class="bi bi-star-fill text-warning"></i>
                             </div>
                         </div>
-                        <h4 class="text-white mt-3 mb-2">{{ auth()->user()->name }}</h4>
-                        <p class="text-white-50 mb-3">{{ auth()->user()->email }}</p>
+                        <h4 class="text-white mt-3 mb-2">{{ Auth::user()->name }}</h4>
+                        <p class="text-white-50 mb-3">{{ Auth::user()->email }}</p>
                         <div class="member-since">
-                            <small class="text-white-50">Member since {{ auth()->user()->created_at->format('M Y') }}</small>
+                            <small class="text-white-50">Member since {{ Auth::user()->created_at->format('M Y') }}</small>
                         </div>
                     </div>
                 </div>
@@ -57,13 +57,13 @@
                     <div class="section-body">
                         <div class="info-item">
                             <div class="info-label">Full Name</div>
-                            <div class="info-value">{{ auth()->user()->name }}</div>
+                            <div class="info-value">{{ Auth::user()->name }}</div>
                         </div>
                         <div class="info-item">
                             <div class="info-label">Email Address</div>
                             <div class="info-value">
-                                {{ auth()->user()->email }}
-                                @if(auth()->user()->email_verified_at)
+                                {{ Auth::user()->email }}
+                                @if(Auth::user()->email_verified_at)
                                     <i class="bi bi-patch-check-fill text-success ms-2" title="Verified"></i>
                                 @else
                                     <i class="bi bi-exclamation-triangle-fill text-warning ms-2" title="Unverified"></i>

@@ -134,7 +134,7 @@
                                     <span class="h5 text-coffee mb-0">Rs. {{ number_format($item->price, 2) }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                    @if(auth()->check())
+                                    @auth
                                         <button class="btn btn-coffee btn-sm add-to-cart"
                                                 data-id="{{ $item->id }}"
                                                 data-name="{{ $item->name }}"
@@ -146,8 +146,8 @@
                                         <a href="{{ route('login') }}" class="btn btn-outline-coffee btn-sm">
                                             <i class="bi bi-box-arrow-in-right me-1"></i>Login to Order
                                         </a>
-                                    @endif
-                                    @if(auth()->check())
+                                    @endauth
+                                    @auth
                                         <button class="btn btn-outline-coffee btn-sm"
                                                 onclick="quickPay({{ $item->id }}, '{{ $item->name }}', {{ $item->price }}, '{{ $item->image }}')"
                                                 data-payment-trigger>
@@ -157,7 +157,7 @@
                                         <a href="{{ route('login') }}" class="btn btn-outline-coffee btn-sm">
                                             <i class="bi bi-credit-card me-1"></i>Quick Pay
                                         </a>
-                                    @endif
+                                    @endauth
                                 </div>
                                 <div class="mt-2 text-center">
                                     <small class="text-muted">

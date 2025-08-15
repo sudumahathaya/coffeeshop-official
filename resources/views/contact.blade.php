@@ -669,11 +669,11 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Auto-fill for logged in users
-    @if(auth()->check())
-        document.getElementById('firstName').value = '{{ explode(" ", auth()->user()->name)[0] ?? "" }}';
-        document.getElementById('lastName').value = '{{ explode(" ", auth()->user()->name)[1] ?? "" }}';
-        document.getElementById('email').value = '{{ auth()->user()->email }}';
-    @endif
+    @auth
+        document.getElementById('firstName').value = '{{ explode(" ", Auth::user()->name)[0] ?? "" }}';
+        document.getElementById('lastName').value = '{{ explode(" ", Auth::user()->name)[1] ?? "" }}';
+        document.getElementById('email').value = '{{ Auth::user()->email }}';
+    @endauth
 
     // Phone number formatting
     const phoneInput = document.getElementById('phone');

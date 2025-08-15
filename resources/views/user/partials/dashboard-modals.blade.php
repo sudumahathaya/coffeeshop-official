@@ -125,11 +125,11 @@
                     @csrf
                     <div class="mb-3">
                         <label for="profileName" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="profileName" value="{{ auth()->user()->name }}" required>
+                        <input type="text" class="form-control" id="profileName" value="{{ Auth::user()->name }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="profileEmail" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="profileEmail" value="{{ auth()->user()->email }}" required>
+                        <input type="email" class="form-control" id="profileEmail" value="{{ Auth::user()->email }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="profilePhone" class="form-label">Phone Number</label>

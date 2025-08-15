@@ -157,7 +157,7 @@
                         <p class="card-text text-muted">{{ $product->description }}</p>
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
                             <span class="h5 text-coffee mb-0">Rs. {{ number_format($product->price, 2) }}</span>
-                            @if(auth()->check())
+                            @auth
                                 <button class="btn btn-coffee btn-sm add-to-cart"
                                         data-id="{{ $product->id }}"
                                         data-name="{{ $product->name }}"
@@ -169,7 +169,7 @@
                                 <a href="{{ route('login') }}" class="btn btn-outline-coffee btn-sm">
                                     <i class="bi bi-box-arrow-in-right me-1"></i>Login to Order
                                 </a>
-                            @endif
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -408,7 +408,7 @@
 </section>
 
 <!-- Call to Action Section -->
-@if(!auth()->check())
+@guest
 <section class="py-5" style="background: var(--gradient-primary);">
     <div class="container text-center text-white">
         <div class="row justify-content-center">
@@ -427,7 +427,7 @@
         </div>
     </div>
 </section>
-@endif
+@endguest
 
 <!-- Newsletter Section -->
 <section class="py-5 bg-dark text-white">
