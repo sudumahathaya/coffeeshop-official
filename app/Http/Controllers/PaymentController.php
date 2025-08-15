@@ -132,6 +132,100 @@ class PaymentController extends Controller
 
         $result = $this->paymentService->processPayment($paymentData);
 
+        // If payment is successful, generate receipt
+        if ($result['success'] && isset($result['transaction_id'])) {
+            Log::info('Payment successful, attempting receipt generation', [
+                'result' => $result,
+                'order_id' => $request->order_id,
+                'method' => $request->method
+            ]);
+            
+            try {
+                // Find the order if order_id is provided
+                if ($request->order_id) {
+                    $order = \App\Models\Order::where('order_id', $request->order_id)->first();
+                    if ($order) {
+                        Log::info('Found existing order for receipt generation', ['order_id' => $order->id]);
+                        $receiptService = app(\App\Services\ReceiptService::class);
+                        $receipt = $receiptService->generateReceipt(
+                            $order, 
+                            $result['transaction_id'], 
+                            $request->method
+                        );
+                        
+                        // Add receipt information to the response
+                        $result['receipt'] = [
+                            'receipt_number' => $receipt->receipt_number,
+                            'receipt_url' => route('receipt.show', $receipt->receipt_number) . '?new_receipt=true'
+                        ];
+                        
+                        // Log successful receipt generation
+                        Log::info('Receipt generated after payment', [
+                            'receipt_number' => $receipt->receipt_number,
+                            'order_id' => $order->id,
+                            'user_id' => $order->user_id
+                        ]);
+                    } else {
+                        Log::warning('Order not found for receipt generation', ['order_id' => $request->order_id]);
+                    }
+                } else {
+                    Log::info('No order_id provided, creating temporary order for receipt');
+                    // Create a temporary order for receipt generation if no order_id provided
+                    $order = \App\Models\Order::create([
+                        'order_id' => 'TEMP_' . time(),
+                        'user_id' => auth()->id() ?? 1, // Default to admin if no auth
+                        'customer_name' => $request->customer_name ?? 'Customer',
+                        'customer_email' => $request->customer_email ?? 'customer@example.com',
+                        'customer_phone' => $request->customer_phone ?? '0770000000',
+                        'order_type' => 'dine_in', // Use valid order type
+                        'items' => [['name' => 'Payment', 'quantity' => 1, 'price' => $request->amount, 'total' => $request->amount]],
+                        'total_items' => 1,
+                        'subtotal' => $request->amount,
+                        'tax' => $request->amount * 0.1, // 10% tax
+                        'total' => $request->amount * 1.1,
+                        'payment_method' => $request->method,
+                        'payment_status' => 'completed',
+                        'status' => 'completed'
+                    ]);
+                    
+                    Log::info('Temporary order created for receipt', ['order_id' => $order->id]);
+                    
+                    $receiptService = app(\App\Services\ReceiptService::class);
+                    $receipt = $receiptService->generateReceipt(
+                        $order, 
+                        $result['transaction_id'], 
+                        $request->method
+                    );
+                    
+                    // Add receipt information to the response
+                    $result['receipt'] = [
+                        'receipt_number' => $receipt->receipt_number,
+                        'receipt_url' => route('receipt.show', $receipt->receipt_number) . '?new_receipt=true'
+                    ];
+                    
+                    Log::info('Receipt generated for payment without order', [
+                        'receipt_number' => $receipt->receipt_number,
+                        'order_id' => $order->id,
+                        'amount' => $request->amount
+                    ]);
+                }
+            } catch (\Exception $e) {
+                Log::error('Failed to generate receipt after payment', [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                    'order_id' => $request->order_id,
+                    'transaction_id' => $result['transaction_id'] ?? null
+                ]);
+                // Don't fail the payment if receipt generation fails
+            }
+        } else {
+            Log::warning('Payment not successful or missing transaction_id', [
+                'success' => $result['success'] ?? false,
+                'transaction_id' => $result['transaction_id'] ?? null,
+                'result' => $result
+            ]);
+        }
+
         return response()->json($result);
     }
 

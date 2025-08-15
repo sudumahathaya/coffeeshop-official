@@ -277,6 +277,10 @@
             .small {
                 font-size: 0.8rem;
             }
+
+            .chart-container {
+                height: 250px;
+            }
         }
     </style>
 
@@ -309,8 +313,15 @@
             <li>
                 <a class="nav-link {{ request()->routeIs('admin.orders*') ? 'active' : '' }}" 
                    href="{{ route('admin.orders') }}">
-                    <i class="bi bi-receipt"></i>
+                    <i class="bi bi-cart"></i>
                     Orders
+                </a>
+            </li>
+            <li>
+                <a class="nav-link {{ request()->routeIs('admin.receipts*') ? 'active' : '' }}" 
+                   href="{{ route('admin.receipts.index') }}">
+                    <i class="bi bi-receipt"></i>
+                    Receipts
                 </a>
             </li>
             <li>

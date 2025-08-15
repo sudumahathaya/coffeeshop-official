@@ -127,6 +127,32 @@ class OrderController extends Controller
                 \Log::info('No user authenticated, skipping loyalty points');
             }
 
+            // Generate receipt if payment is completed
+            $receipt = null;
+            if ($paymentStatus === 'completed' && $transactionId) {
+                try {
+                    $receiptService = app(\App\Services\ReceiptService::class);
+                    $receipt = $receiptService->generateReceipt(
+                        $order, 
+                        $transactionId, 
+                        $validatedData['payment_method']
+                    );
+                    
+                    \Log::info('Receipt generated for completed order', [
+                        'receipt_number' => $receipt->receipt_number,
+                        'order_id' => $order->id,
+                        'user_id' => Auth::id()
+                    ]);
+                } catch (\Exception $e) {
+                    \Log::error('Failed to generate receipt for order', [
+                        'error' => $e->getMessage(),
+                        'order_id' => $order->id,
+                        'user_id' => Auth::id()
+                    ]);
+                    // Don't fail the order if receipt generation fails
+                }
+            }
+
             DB::commit();
 
             \Log::info('Order transaction committed successfully', [
@@ -136,7 +162,7 @@ class OrderController extends Controller
                 'points_earned' => $pointsEarned
             ]);
 
-            return response()->json([
+            $response = [
                 'success' => true,
                 'message' => 'Order placed successfully!',
                 'order_id' => $orderId,
@@ -144,7 +170,17 @@ class OrderController extends Controller
                 'payment_status' => $paymentStatus,
                 'points_earned' => $pointsEarned,
                 'total_amount' => $total
-            ]);
+            ];
+
+            // Add receipt information if generated
+            if ($receipt) {
+                $response['receipt'] = [
+                    'receipt_number' => $receipt->receipt_number,
+                    'receipt_url' => route('receipt.show', $receipt->receipt_number) . '?new_receipt=true'
+                ];
+            }
+
+            return response()->json($response);
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             \Log::warning('Order validation failed', [

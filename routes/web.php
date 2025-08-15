@@ -148,6 +148,15 @@ Route::get('/admin/api/menu-stats', function () {
     ]);
 })->middleware(['auth', 'admin'])->name('admin.api.menu-stats');
 
+// Receipt routes
+Route::middleware('auth')->group(function () {
+    Route::get('/receipt/{receiptNumber}', [ReceiptController::class, 'show'])->name('receipt.show');
+    Route::get('/receipt/{receiptNumber}/print', [ReceiptController::class, 'print'])->name('receipt.print');
+    Route::get('/receipt/{receiptNumber}/download', [ReceiptController::class, 'downloadPDF'])->name('receipt.download');
+    Route::get('/receipts/history', [ReceiptController::class, 'history'])->name('receipt.history');
+    Route::post('/receipts/search', [ReceiptController::class, 'search'])->name('receipt.search');
+});
+
 // Order routes
 Route::post('/api/orders', [OrderController::class, 'store'])->name('api.orders.store');
 Route::get('/api/orders/{orderId}', [OrderController::class, 'show'])->name('api.orders.show');
@@ -204,6 +213,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/profile-requests/{id}/reject', [AdminProfileController::class, 'reject'])->name('profile-requests.reject');
     Route::delete('/profile-requests/{id}', [AdminProfileController::class, 'destroy'])->name('profile-requests.destroy');
     Route::get('/profile-requests/pending-count', [AdminProfileController::class, 'getPendingCount'])->name('profile-requests.pending-count');
+
+    // Receipt management
+    Route::get('/receipts', [ReceiptController::class, 'adminIndex'])->name('receipts.index');
+    Route::get('/receipts/{receiptNumber}', [ReceiptController::class, 'adminShow'])->name('receipts.show');
+    Route::post('/receipts/{receiptId}/cancel', [ReceiptController::class, 'adminCancel'])->name('receipts.cancel');
 
     // Reservation change requests management
     Route::get('/reservation-requests', [AdminReservationChangeController::class, 'index'])->name('reservation-requests.index');

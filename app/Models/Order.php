@@ -23,6 +23,9 @@ class Order extends Model
         'status',
         'order_type',
         'special_instructions',
+        'payment_method',
+        'payment_status',
+        'transaction_id',
         'completed_at',
     ];
 

@@ -547,7 +547,8 @@ class CafeElixirPaymentSystem {
                     amount: orderData.total,
                     method: orderData.payment_method,
                     order_id: result.order_id,
-                    points_earned: result.points_earned || 0
+                    points_earned: result.points_earned || 0,
+                    receipt: result.receipt || null
                 });
 
             } else {
@@ -611,6 +612,15 @@ class CafeElixirPaymentSystem {
                             ` : ''}
                         </div>
 
+                        ${result.receipt ? `
+                            <div class="alert alert-success mt-4">
+                                <i class="bi bi-receipt me-2"></i>
+                                <strong>Receipt Generated!</strong><br>
+                                • Receipt Number: <code class="text-success">${result.receipt.receipt_number}</code><br>
+                                • Your receipt is ready for download
+                            </div>
+                        ` : ''}
+                        
                         <div class="alert alert-info mt-4">
                             <i class="bi bi-info-circle-fill me-2"></i>
                             <strong>What's Next?</strong><br>
@@ -637,6 +647,14 @@ class CafeElixirPaymentSystem {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        ${result.receipt ? `
+                            <a href="${result.receipt.receipt_url}" class="btn btn-outline-primary me-2" target="_blank">
+                                <i class="bi bi-eye me-2"></i>View Receipt
+                            </a>
+                            <a href="/receipt/${result.receipt.receipt_number}/download" class="btn btn-success me-2">
+                                <i class="bi bi-download me-2"></i>Download PDF
+                            </a>
+                        ` : ''}
                         <a href="/user/dashboard" class="btn btn-coffee">
                             <i class="bi bi-speedometer2 me-2"></i>View Dashboard
                         </a>

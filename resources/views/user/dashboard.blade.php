@@ -314,6 +314,9 @@
                             <a href="{{ route('reservation') }}" class="btn btn-outline-coffee">
                                 <i class="bi bi-calendar-plus me-2"></i>Book Table
                             </a>
+                            <a href="{{ route('receipt.history') }}" class="btn btn-outline-coffee">
+                                <i class="bi bi-receipt me-2"></i>Receipt History
+                            </a>
                             <button class="btn btn-outline-coffee" data-bs-toggle="modal" data-bs-target="#profileModal">
                                 <i class="bi bi-person-gear me-2"></i>Update Profile
                             </button>
