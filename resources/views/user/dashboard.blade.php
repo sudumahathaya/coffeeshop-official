@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row align-items-center py-5">
             <div class="col-lg-8" data-aos="fade-up">
-                <h1 class="display-5 fw-bold text-white mb-3">Welcome back, {{ $dashboardData['user']->name }}!</h1>
+                <h1 class="display-5 fw-bold text-white mb-3">Welcome back, {{ $dashboardData['user']->name ?? auth()->user()->name }}!</h1>
                 <p class="lead text-white mb-4">
                     Your coffee journey continues. Track your orders, manage reservations, and enjoy exclusive member benefits.
                 </p>
@@ -26,7 +26,7 @@
                 <div class="welcome-card">
                     <div class="text-center">
                         <div class="user-avatar">
-                            <span class="avatar-text">{{ strtoupper(substr($dashboardData['user']->name, 0, 1)) }}</span>
+                            <span class="avatar-text">{{ strtoupper(substr($dashboardData['user']->name ?? auth()->user()->name, 0, 1)) }}</span>
                             <div class="tier-badge">
                                 <i class="bi bi-star-fill text-warning"></i>
                             </div>

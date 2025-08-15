@@ -24,7 +24,7 @@
                                 <i class="bi bi-person me-2"></i>Full Name *
                             </label>
                             <input type="text" class="form-control form-control-lg" id="editName" 
-                                   value="{{ Auth::user()->name }}" required>
+                                   value="{{ auth()->user()->name }}" required>
                         </div>
 
                         <div class="col-md-6">
@@ -32,7 +32,7 @@
                                 <i class="bi bi-envelope me-2"></i>Email Address *
                             </label>
                             <input type="email" class="form-control form-control-lg" id="editEmail" 
-                                   value="{{ Auth::user()->email }}" required>
+                                   value="{{ auth()->user()->email }}" required>
                         </div>
 
                         <div class="col-md-6">

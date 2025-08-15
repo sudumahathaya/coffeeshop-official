@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @auth
-        <meta name="user-name" content="{{ Auth::user()->name }}">
-        <meta name="user-email" content="{{ Auth::user()->email }}">
-    @endauth
+    @if(auth()->check())
+        <meta name="user-name" content="{{ auth()->user()->name }}">
+        <meta name="user-email" content="{{ auth()->user()->email }}">
+    @endif
 
     <title>@yield('title', 'Café Elixir - Premium Coffee Experience')</title>
     <meta name="description" content="@yield('description', 'Experience premium coffee at Café Elixir. Artisanal coffee, cozy atmosphere, and exceptional service in the heart of Colombo.')">
@@ -391,7 +391,7 @@
                 </ul>
 
                 <ul class="navbar-nav">
-                    @auth
+                    @if(auth()->check())
                         <!-- Cart Icon -->
                         <li class="nav-item me-3">
                             <button class="btn btn-outline-coffee position-relative" data-bs-toggle="modal" data-bs-target="#cartModal">
@@ -403,7 +403,7 @@
                         <!-- User Dropdown -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle me-1"></i>{{ Auth::user()->name }}
+                                <i class="bi bi-person-circle me-1"></i>{{ auth()->user()->name }}
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('user.dashboard') }}">
@@ -415,7 +415,7 @@
                                 <li><a class="dropdown-item" href="{{ route('profile.view') }}">
                                     <i class="bi bi-person me-2"></i>Profile
                                 </a></li>
-                                @if(Auth::user()->role === 'admin')
+                                @if(auth()->user()->role === 'admin')
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">
                                         <i class="bi bi-gear me-2"></i>Admin Panel
@@ -1006,6 +1006,16 @@
                 behavior: 'smooth'
             });
         });
+
+        // Auto-fill for logged in users
+        @if(auth()->check())
+            document.getElementById('firstName').value = '{{ explode(" ", auth()->user()->name)[0] ?? "" }}';
+            document.getElementById('lastName').value = '{{ explode(" ", auth()->user()->name)[1] ?? "" }}';
+            document.getElementById('email').value = '{{ auth()->user()->email }}';
+        @endif
+
+        // Phone number formatting
+        const phoneInput = document.getElementById('phone');
     </script>
 
     @stack('scripts')
