@@ -547,12 +547,7 @@ class CafeElixirPaymentSystem {
                     amount: orderData.total,
                     method: orderData.payment_method,
                     order_id: result.order_id,
-                    points_earned: result.points_earned || 0,
-                    orderData: orderData,
-                    paymentData: {
-                        processing_fee: this.calculateProcessingFee(orderData.subtotal || orderData.total || 0, orderData.payment_method),
-                        transaction_id: orderData.transaction_id
-                    }
+                    points_earned: result.points_earned || 0
                 });
 
             } else {
@@ -628,9 +623,6 @@ class CafeElixirPaymentSystem {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-outline-coffee" onclick="showReceipt()">
-                            <i class="bi bi-receipt me-2"></i>View Receipt
-                        </button>
                         <a href="/user/dashboard" class="btn btn-coffee">
                             <i class="bi bi-speedometer2 me-2"></i>View Dashboard
                         </a>
@@ -642,9 +634,6 @@ class CafeElixirPaymentSystem {
         document.body.appendChild(modal);
         const bootstrapModal = new bootstrap.Modal(modal);
         bootstrapModal.show();
-
-        // Store receipt data for later use
-        window.currentPaymentResult = result;
 
         // Add celebration animation if points were earned
         if (result.points_earned > 0) {
@@ -671,9 +660,6 @@ class CafeElixirPaymentSystem {
             window.paymentInProgress = false;
             window.orderSuccessful = false;
             window.checkoutInProgress = false;
-            
-            // Clean up receipt data
-            delete window.currentPaymentResult;
 
             // Trigger dashboard refresh if on dashboard page
             if (window.location.pathname.includes('dashboard')) {
@@ -693,31 +679,6 @@ class CafeElixirPaymentSystem {
             }
         });
     }
-
-    // Global function to show receipt from success modal
-    window.showReceipt = function() {
-        if (window.currentPaymentResult && window.receiptGenerator) {
-            const result = window.currentPaymentResult;
-            
-            // Close success modal first
-            const successModal = document.querySelector('.modal.show');
-            if (successModal) {
-                const modal = bootstrap.Modal.getInstance(successModal);
-                modal.hide();
-            }
-            
-            // Show receipt modal after a short delay
-            setTimeout(() => {
-                window.receiptGenerator.showReceiptModal(
-                    result.orderData || {},
-                    result.paymentData || {}
-                );
-            }, 300);
-        } else {
-            console.error('Receipt data not available');
-            showNotification('Receipt data not available', 'error');
-        }
-    };
 
     showCelebrationAnimation(pointsEarned) {
         const celebration = document.createElement('div');
