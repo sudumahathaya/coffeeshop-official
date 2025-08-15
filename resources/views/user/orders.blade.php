@@ -146,6 +146,9 @@
                                     <button class="btn btn-outline-coffee btn-sm me-2">
                                         <i class="bi bi-receipt me-1"></i>Receipt
                                     </button>
+                                    <button class="btn btn-outline-primary btn-sm me-2" onclick="downloadReceipt('CE2024001')">
+                                        <i class="bi bi-download me-1"></i>Download
+                                    </button>
                                     <button class="btn btn-outline-secondary btn-sm">
                                         <i class="bi bi-star me-1"></i>Review
                                     </button>
@@ -216,6 +219,9 @@
                                     </button>
                                     <button class="btn btn-outline-coffee btn-sm me-2">
                                         <i class="bi bi-receipt me-1"></i>Receipt
+                                    </button>
+                                    <button class="btn btn-outline-primary btn-sm me-2" onclick="downloadReceipt('CE2024002')">
+                                        <i class="bi bi-download me-1"></i>Download
                                     </button>
                                     <button class="btn btn-outline-secondary btn-sm">
                                         <i class="bi bi-star me-1"></i>Review
@@ -505,6 +511,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <button class="btn btn-outline-coffee btn-sm me-2">
                                             <i class="bi bi-receipt me-1"></i>Receipt
                                         </button>
+                                        <button class="btn btn-outline-primary btn-sm me-2" onclick="downloadReceipt('CE2024004')">
+                                            <i class="bi bi-download me-1"></i>Download
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -529,6 +538,72 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification('More orders loaded!', 'success');
         }, 1000);
     });
+
+    // Global receipt functions
+    window.downloadReceipt = function(orderId) {
+        try {
+            const downloadUrl = `/receipt/${orderId}/download`;
+            
+            // Create a temporary link and trigger download
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = `receipt-${orderId}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification('Receipt download started!', 'success');
+        } catch (error) {
+            console.error('Download error:', error);
+            showNotification('Failed to download receipt', 'error');
+        }
+    };
+
+    window.viewReceipt = function(orderId) {
+        try {
+            const viewUrl = `/receipt/${orderId}/view`;
+            window.open(viewUrl, '_blank', 'width=800,height=1000,scrollbars=yes,resizable=yes');
+            showNotification('Receipt opened in new window', 'info');
+        } catch (error) {
+            console.error('View error:', error);
+            showNotification('Failed to open receipt', 'error');
+        }
+    };
+
+    window.emailReceipt = function(orderId) {
+        const userEmail = document.querySelector('meta[name="user-email"]')?.getAttribute('content');
+        
+        if (!userEmail) {
+            showNotification('Email address not found', 'warning');
+            return;
+        }
+
+        const confirmed = confirm(`Send receipt to ${userEmail}?`);
+        if (!confirmed) return;
+
+        fetch(`/receipt/${orderId}/email`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                email: userEmail
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showNotification(data.message, 'success');
+            } else {
+                showNotification(data.message || 'Failed to email receipt', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Email error:', error);
+            showNotification('Failed to email receipt', 'error');
+        });
+    };
 });
 </script>
 @endpush

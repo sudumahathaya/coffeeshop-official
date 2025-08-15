@@ -620,6 +620,20 @@ class CafeElixirPaymentSystem {
                             ${result.points_earned ? `• You earned ${result.points_earned} loyalty points!<br>` : ''}
                             ${result.method === 'cash' ? '• Pay when you arrive at the café' : '• Payment has been processed successfully'}
                         </div>
+
+                        <div class="receipt-actions mt-4">
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-outline-primary" onclick="downloadReceipt('${result.order_id}')">
+                                    <i class="bi bi-download me-2"></i>Download Receipt
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="viewReceipt('${result.order_id}')">
+                                    <i class="bi bi-eye me-2"></i>View Receipt
+                                </button>
+                                <button type="button" class="btn btn-outline-info" onclick="emailReceipt('${result.order_id}')">
+                                    <i class="bi bi-envelope me-2"></i>Email Receipt
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -950,6 +964,72 @@ class CafeElixirPaymentSystem {
         }, 4000);
     }
 
+    downloadReceipt(orderId) {
+        try {
+            const downloadUrl = `/receipt/${orderId}/download`;
+            
+            // Create a temporary link and trigger download
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = `receipt-${orderId}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            this.showNotification('Receipt download started!', 'success');
+        } catch (error) {
+            console.error('Download error:', error);
+            this.showNotification('Failed to download receipt', 'error');
+        }
+    }
+
+    viewReceipt(orderId) {
+        try {
+            const viewUrl = `/receipt/${orderId}/view`;
+            window.open(viewUrl, '_blank', 'width=800,height=1000,scrollbars=yes,resizable=yes');
+            this.showNotification('Receipt opened in new window', 'info');
+        } catch (error) {
+            console.error('View error:', error);
+            this.showNotification('Failed to open receipt', 'error');
+        }
+    }
+
+    emailReceipt(orderId) {
+        const userEmail = document.querySelector('meta[name="user-email"]')?.getAttribute('content');
+        
+        if (!userEmail) {
+            this.showNotification('Email address not found', 'warning');
+            return;
+        }
+
+        // Show confirmation dialog
+        const confirmed = confirm(`Send receipt to ${userEmail}?`);
+        if (!confirmed) return;
+
+        fetch(`/receipt/${orderId}/email`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                email: userEmail
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                this.showNotification(data.message, 'success');
+            } else {
+                this.showNotification(data.message || 'Failed to email receipt', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Email error:', error);
+            this.showNotification('Failed to email receipt', 'error');
+        });
+    }
+
     delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -993,6 +1073,19 @@ document.addEventListener('DOMContentLoaded', function() {
     window.checkoutInProgress = false;
 
     window.cafeElixirPaymentSystem = new CafeElixirPaymentSystem();
+
+    // Make receipt functions globally available
+    window.downloadReceipt = function(orderId) {
+        window.cafeElixirPaymentSystem.downloadReceipt(orderId);
+    };
+
+    window.viewReceipt = function(orderId) {
+        window.cafeElixirPaymentSystem.viewReceipt(orderId);
+    };
+
+    window.emailReceipt = function(orderId) {
+        window.cafeElixirPaymentSystem.emailReceipt(orderId);
+    };
 
     // Add input formatting event listeners
     document.addEventListener('input', function(e) {

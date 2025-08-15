@@ -162,6 +162,9 @@
                                     <button class="btn btn-outline-secondary btn-sm">
                                         <i class="bi bi-eye me-1"></i>Details
                                     </button>
+                                    <button class="btn btn-outline-primary btn-sm" onclick="downloadReceipt('{{ $order->order_id }}')">
+                                        <i class="bi bi-download me-1"></i>Receipt
+                                    </button>
                                 </div>
                             </div>
                             @endforeach

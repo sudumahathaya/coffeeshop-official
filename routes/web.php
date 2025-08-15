@@ -11,6 +11,7 @@ use App\Http\Controllers\ReservationChangeController;
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AdminReservationChangeController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReceiptController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -43,6 +44,13 @@ Route::prefix('api/payment')->name('api.payment.')->group(function () {
     Route::post('/refund', [PaymentController::class, 'processRefund'])->name('refund');
     Route::get('/methods', [PaymentController::class, 'getSupportedMethods'])->name('methods');
     Route::get('/fees', [PaymentController::class, 'getPaymentFees'])->name('fees');
+});
+
+// Receipt routes
+Route::middleware('auth')->group(function () {
+    Route::get('/receipt/{orderId}/download', [ReceiptController::class, 'downloadReceipt'])->name('receipt.download');
+    Route::get('/receipt/{orderId}/view', [ReceiptController::class, 'viewReceipt'])->name('receipt.view');
+    Route::post('/receipt/{orderId}/email', [ReceiptController::class, 'emailReceipt'])->name('receipt.email');
 });
 
 // Admin payment routes

@@ -154,6 +154,9 @@
                                     <button class="btn btn-outline-primary btn-sm" onclick="printReceipt('{{ $order->id }}')">
                                         <i class="bi bi-pencil"></i>
                                     </button>
+                                    <button class="btn btn-outline-info btn-sm" onclick="downloadReceipt('{{ $order->order_id }}')">
+                                        <i class="bi bi-download"></i>
+                                    </button>
                                     <button class="btn btn-outline-danger btn-sm" onclick="deleteOrder('{{ $order->id }}')">
                                         <i class="bi bi-trash"></i>
                                     </button>
@@ -304,6 +307,9 @@ function updateActionButtons(row, status) {
         <button class="btn btn-outline-primary btn-sm" onclick="printReceipt('${orderId}')">
             <i class="bi bi-printer"></i>
         </button>
+        <button class="btn btn-outline-info btn-sm" onclick="downloadReceipt('${orderId}')">
+            <i class="bi bi-download"></i>
+        </button>
     `;
     
     actionsCell.innerHTML = buttonsHtml;
@@ -376,6 +382,25 @@ function viewOrder(orderId) {
 
 function printReceipt(orderId) {
     showNotification('Receipt printing functionality coming soon!', 'info');
+}
+
+function downloadReceipt(orderId) {
+    try {
+        const downloadUrl = `/receipt/${orderId}/download`;
+        
+        // Create a temporary link and trigger download
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = `receipt-${orderId}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        showNotification('Receipt download started!', 'success');
+    } catch (error) {
+        console.error('Download error:', error);
+        showNotification('Failed to download receipt', 'error');
+    }
 }
 
 function deleteOrder(orderId) {
